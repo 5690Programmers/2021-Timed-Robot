@@ -73,7 +73,7 @@ frc::Timer TikTok;
   // pointer to limelight stuff
 std::shared_ptr<NetworkTable> table;
 
-//AHRS ahrs{SPI::Port::kMXP};
+//AHRS ahrs{frc::SPI::Port::kMXP};
 
   void RobotInit() override;
   void RobotPeriodic() override;
