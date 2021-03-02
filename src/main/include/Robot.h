@@ -1,5 +1,5 @@
 #pragma once
-#include <frc/WPIlib.h>
+#include <frc/WPIlib.h> 
 #include <frc/TimedRobot.h>
 #include <frc/smartdashboard/SendableChooser.h>
 #include <iostream>
@@ -12,7 +12,7 @@
 #include <sstream>
 #include <frc/VictorSP.h>
 #include <frc/XboxController.h>
-//#include <AHRS.h>
+#include <AHRS.h>
 #include <frc/controller/PIDController.h>
 #include <frc/MedianFilter.h>
 #include <frc/Timer.h>
@@ -73,7 +73,7 @@ frc::Timer TikTok;
   // pointer to limelight stuff
 std::shared_ptr<NetworkTable> table;
 
-//AHRS ahrs{frc::SPI::Port::kMXP};
+AHRS ahrs{frc::SPI::Port::kMXP};
 
   void RobotInit() override;
   void RobotPeriodic() override;
@@ -93,9 +93,9 @@ std::shared_ptr<NetworkTable> table;
   frc::XboxController Xbox{0};
 
 //PID for turning
-  double kP = 0.12; //tune This to start ocolating.  0.2 made 0.667s periods .12
-  double kI = 0.36; //Then tune this to stop the osolating .36
-  double kD = 0.01; //Finaly tune this to fix final error  .01
+  double kP = 0.07; //tune This to start ocolating.  0.2 made 0.667s periods .12
+  double kI = 0; //Then tune this to stop the osolating .36
+  double kD = 0.005; //Finaly tune this to fix final error  .01
 
   frc2::PIDController TurnToAngle{kP, kI, kD};
 

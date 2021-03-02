@@ -4,7 +4,7 @@
 
 #include <frc/smartdashboard/SmartDashboard.h>
 
-void Robot::RobotInit() {
+void Robot::RobotInit() { 
   m_chooser.SetDefaultOption(kAutoNameDefault, kAutoNameDefault);
   m_chooser.AddOption(kAutoNameCustom, kAutoNameCustom);
   frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
@@ -47,7 +47,7 @@ void Robot::RobotInit() {
   //TurnToAngle.SetTolerance(6.0, 3.0); //room for error
   TurnToAngle.SetTolerance(0.05); //room for error
   TurnToAngle.EnableContinuousInput(-180.0f,  180.0f); 
-  //ahrs.ZeroYaw();
+  ahrs.ZeroYaw();
 
 
 //Drive train motor grouping start
@@ -87,8 +87,8 @@ void Robot::RobotPeriodic() {
   frc::SmartDashboard::PutBoolean("Laser3", LaserState3);
 
   // Get current gyro info
-  //gyroAngle = ahrs.GetYaw();
-  //frc::SmartDashboard::PutNumber("gyroAngle", gyroAngle);
+  gyroAngle = ahrs.GetYaw();
+  frc::SmartDashboard::PutNumber("gyroAngle", gyroAngle);
 
   // Get limelight stuff
   tx = table->GetNumber("tx",0.0); 
@@ -261,7 +261,7 @@ if (IsOperatorControl() && IsEnabled()) {
 
 // limelight aim
     if (Xbox.GetBumper(frc::XboxController::JoystickHand(1))) { 
-      //Shooter.Set(ControlMode::Velocity, 2500);
+      Shooter.Set(ControlMode::Velocity, 2500);
       table->PutNumber("pipeline", 0); //shooting pipe line
       //Gyro turning with PID
       //if (!TurnToAngle.IsEnabled()) TurnToAngle.Enabled();
