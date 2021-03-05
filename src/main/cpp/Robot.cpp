@@ -20,6 +20,9 @@ void Robot::RobotInit() {
   LaserState3 = IntakeLaser2.Get();
   frc::SmartDashboard::PutBoolean("Laser3", LaserState3);
 
+  RightLead.ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor, 0, 10);
+  LeftLead.ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor, 0, 10);
+  
   //gyroAngle = ahrs.GetYaw();
   //frc::SmartDashboard::PutNumber("gyroAngle", gyroAngle);
 
@@ -73,6 +76,13 @@ void Robot::RobotPeriodic() {
   // get the ultrasonic range
   Distance = Ultrasonic.GetVoltage()*1000.0*(1.0/0.977)*(1.0/25.4);
   frc::SmartDashboard::PutNumber("Distance", Distance);
+
+
+  rEncoder = RightLead.GetSelectedSensorPosition();
+  frc::SmartDashboard::PutNumber("Right Encoder", rEncoder);
+  lEncoder = LeftLead.GetSelectedSensorPosition();
+  frc::SmartDashboard::PutNumber("Left Encoder", lEncoder);
+
 
 // Get Shooter RPM
   RPM = Shooter.GetSelectedSensorVelocity(0);

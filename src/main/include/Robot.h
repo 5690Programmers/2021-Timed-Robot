@@ -16,6 +16,7 @@
 #include <frc/controller/PIDController.h>
 #include <frc/MedianFilter.h>
 #include <frc/Timer.h>
+#include <frc/Encoder.h>
 
 class Robot : public frc::TimedRobot {
  public:
@@ -51,6 +52,9 @@ frc::DigitalInput IntakeLaser1 {0};  // eye back by shooter to prevent james *ja
 frc::DigitalInput IntakeLaser2 {1};  // eye near front of indexer to prevent jams going that way
 frc::DigitalInput IntakeLaser3 {2};  // eye at intake, to trigger indexer and slurp ball in
 
+//frc::Encoder leftEncoder;
+//frc::Encoder rightEncoder; 
+
 bool LaserState1 = 0;
 bool LaserState2 = 0;
 bool LaserState3 = 0;
@@ -63,6 +67,8 @@ float tx = 0.0;           // limelight angle off left/right
 int tv = 0;               // does the limelight have a target?
 double gyroAngle = 0.0;   // What is the angle from the gyro?
 double RPM = 0.0;
+double rEncoder = 0.0;
+double lEncoder = 0.0;
 
 // auto logic stuff
 bool FIRST = true;
