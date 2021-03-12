@@ -96,7 +96,7 @@ AHRS ahrs{frc::SPI::Port::kMXP};
   const std::string kAutoNameCustom = "My Auto";
   std::string m_autoSelected;
 
-  frc::XboxController Xbox{0};
+  frc::XboxController Xbox{0}; 
 
 //PID for turning
   double kP = 0.07; //tune This to start ocolating.  0.2 made 0.667s periods .12

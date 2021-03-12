@@ -5,8 +5,8 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 
 void Robot::RobotInit() { 
-  m_chooser.SetDefaultOption(kAutoNameDefault, kAutoNameDefault);
-  m_chooser.AddOption(kAutoNameCustom, kAutoNameCustom);
+  m_chooser.SetDefaultOption(kAutoNameCustom, kAutoNameCustom);
+  m_chooser.AddOption(kAutoNameDefault, kAutoNameDefault);//kAutoNameCustom, kAutoNameCustom
   frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
   //frc::SmartDashboard::PutData("TurnToAngle", TurnToAngle);
   //frc::SmartDashboard::PutData("DistancePID", DistancePID);
@@ -67,7 +67,6 @@ void Robot::RobotInit() {
 // Ultrasonic ranging.  
 //DistancePID.SetSetpoint(60.0);
 //DistancePID.SetTolerance(3);
-
 } 
 
 
@@ -78,7 +77,7 @@ void Robot::RobotPeriodic() {
   frc::SmartDashboard::PutNumber("Distance", Distance);
 
 
-  rEncoder = RightLead.GetSelectedSensorPosition();
+  rEncoder = -RightLead.GetSelectedSensorPosition();
   frc::SmartDashboard::PutNumber("Right Encoder", rEncoder);
   lEncoder = LeftLead.GetSelectedSensorPosition();
   frc::SmartDashboard::PutNumber("Left Encoder", lEncoder);
@@ -135,12 +134,17 @@ void Robot::AutonomousPeriodic() {
   double now = TikTok.Get();  // how long since auto started
 
   if (m_autoSelected == kAutoNameCustom) {
-    // custom auto goes in here
+
   }else {
     // standard auto here
-    if (now <= 1.0) {
+    if (rEncoder <= 360000 && lEncoder <= 360000) {
+      myRobot.ArcadeDrive( -0.3, 0.0, true);
+    } else {
+      myRobot.ArcadeDrive( 0.0, 0.0, true);
+    }
+    //if (now <= 1.0) {
       // Do something for the first second, say, drive backwards at 0.6 speed
-      myRobot.ArcadeDrive( 0.6, 0.0, true);  // Backwards is plus. Really.
+      /*myRobot.ArcadeDrive( 0.6, 0.0, true);  // Backwards is plus. Really.
     } else if ((now > 1.0) && (now <= 3.0)) {
         if (FIRST){
       myRobot.ArcadeDrive( 0.0, 0.0, true);
@@ -177,13 +181,13 @@ void Robot::AutonomousPeriodic() {
     } else {
       TurnToAngle.Reset();
       myRobot.ArcadeDrive( 0.0, 0.0, true);
-    }
+    }*/
 
   }
  
 }
 
-void Robot::TeleopInit() {}
+void Robot::TeleopInit() {} 
 
 void Robot::TeleopPeriodic() {
 
