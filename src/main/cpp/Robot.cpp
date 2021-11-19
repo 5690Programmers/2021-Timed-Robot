@@ -4,7 +4,7 @@
 
 #include <frc/smartdashboard/SmartDashboard.h>
 
-void Robot::RobotInit() { 
+void Robot::RobotInit() {  
   m_chooser.SetDefaultOption(kAutoNameCustom, kAutoNameCustom);
   m_chooser.AddOption(kAutoNameDefault, kAutoNameDefault);//kAutoNameCustom, kAutoNameCustom
   frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
@@ -137,32 +137,28 @@ void Robot::AutonomousPeriodic() {
 
   }else {
     // standard auto here
-    if (rEncoder <= 360000 && lEncoder <= 360000) {
-      myRobot.ArcadeDrive( -0.3, 0.0, true);
-    } else {
-      myRobot.ArcadeDrive( 0.0, 0.0, true);
-    }
-    //if (now <= 1.0) {
+    if (now <= 1) {
       // Do something for the first second, say, drive backwards at 0.6 speed
-      /*myRobot.ArcadeDrive( 0.6, 0.0, true);  // Backwards is plus. Really.
-    } else if ((now > 1.0) && (now <= 3.0)) {
+      myRobot.ArcadeDrive( 0.6, 0.0, true);  // Backwards is plus. Really.
+    } else if ((now > 1) && (now <= 1.6)) {
         if (FIRST){
-      myRobot.ArcadeDrive( 0.0, 0.0, true);
+      myRobot.ArcadeDrive( -0.4, 0.0, true);
         FIRST=false;
         } 
+    } else if ((now > 3.0) && (now <= 6.0)) {  
       // do stuff for the rest of the auto, say, lock in and shoot
       table->PutNumber("pipeline", 0); //shooting pipe line
       if (tv == 1) {
         TurnToAngle.SetSetpoint(gyroAngle + tx);  
         myRobot.ArcadeDrive( 0.0, TurnToAngle.Calculate(gyroAngle), true);
       }
-    } else if ((now > 3.0) && (now <= 4.0)) {
+    } else if ((now > 6.00) && (now <= 7.00)) {
       // rev up shooting motor for 1s.  We could/should check that it's AtSetpoint() and on target here
-      Shooter.Set(ControlMode::Velocity, 2500);
-    } else if ((now > 4.0) && (now <= 5.0)) {
+      Shooter.Set(ControlMode::Velocity, 2100);
+    } else if ((now > 7.00) && (now <= 9.00)) {
       // run indexer to shoot balls, for 1s
-      IndexerB.Set(ControlMode::PercentOutput, -0.5);
-    } else if ((now > 5.0) && (now <= 8.0)){
+      IndexerB.Set(ControlMode::PercentOutput, -0.3);
+    } else if ((now > 9.00) && (now <= 10.00)){
       if (FIRST2){
       // do stuff for the rest of the auto, like stop all the motions and get ready for teleop
       Shooter.Set(ControlMode::PercentOutput, 0.0);
@@ -181,7 +177,7 @@ void Robot::AutonomousPeriodic() {
     } else {
       TurnToAngle.Reset();
       myRobot.ArcadeDrive( 0.0, 0.0, true);
-    }*/
+    }
 
   }
  
@@ -267,15 +263,16 @@ if (IsOperatorControl() && IsEnabled()) {
     }else if(Xbox.GetBumper(frc::XboxController::JoystickHand(0))){
       Climber.Set(ControlMode::PercentOutput, 0.55);//.5, .8
     } else if (Xbox.GetYButton()){
-       Climber.Set(ControlMode::PercentOutput, 0.8);//.5, .8
+      Climber.Set(ControlMode::PercentOutput, -0.8);//.5, .8
     }else{
       Climber.Set(ControlMode::PercentOutput, 0.0);
       ClimberLift.Set(ControlMode::PercentOutput, 0.0);
     }
+    
 
 // limelight aim
     if (Xbox.GetBumper(frc::XboxController::JoystickHand(1))) { 
-      Shooter.Set(ControlMode::Velocity, 2500);
+      //Shooter.Set(ControlMode::Velocity, 2500);
       table->PutNumber("pipeline", 0); //shooting pipe line
       //Gyro turning with PID
       //if (!TurnToAngle.IsEnabled()) TurnToAngle.Enabled();

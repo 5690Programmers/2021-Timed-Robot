@@ -18,7 +18,7 @@
 #include <frc/Timer.h>
 #include <frc/Encoder.h>
 
-class Robot : public frc::TimedRobot {
+class Robot : public frc::TimedRobot { 
  public:
 
 WPI_TalonSRX Shooter = WPI_TalonSRX(5); 
