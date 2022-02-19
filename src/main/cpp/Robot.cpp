@@ -134,54 +134,64 @@ void Robot::AutonomousPeriodic() {
   double now = TikTok.Get();  // how long since auto started
 
   if (m_autoSelected == kAutoNameCustom) {
-
+      TurnToAngle.Reset();
+      myRobot.ArcadeDrive( 0.0, 0.0, true);
+    /* jonnothan i am stuff */
   }else {
     // standard auto here
     if (now <= 1) {
       // Do something for the first second, say, drive backwards at 0.6 speed
       myRobot.ArcadeDrive( 0.6, 0.0, true);  // Backwards is plus. Really.
-    } else if ((now > 1) && (now <= 1.6)) {
-        if (FIRST){
+    } else if ((now > 1) && (now <= 1.9)) {
+      //Drive back beaucse
       myRobot.ArcadeDrive( -0.4, 0.0, true);
-        FIRST=false;
-        } 
-    } else if ((now > 3.0) && (now <= 6.0)) {  
+    } else if ((now > 3.0) && (now <= 5.0)) {  
       // do stuff for the rest of the auto, say, lock in and shoot
       table->PutNumber("pipeline", 0); //shooting pipe line
       if (tv == 1) {
         TurnToAngle.SetSetpoint(gyroAngle + tx);  
         myRobot.ArcadeDrive( 0.0, TurnToAngle.Calculate(gyroAngle), true);
       }
-    } else if ((now > 6.00) && (now <= 7.00)) {
-      // rev up shooting motor for 1s.  We could/should check that it's AtSetpoint() and on target here
-      Shooter.Set(ControlMode::Velocity, 2100);
-    } else if ((now > 7.00) && (now <= 9.00)) {
-      // run indexer to shoot balls, for 1s
+    } else if ((now > 5.00) && (now <= 5.60)) {
+      // rev up shooting motor for .6 s.  We could/should check that it's AtSetpoint() and on target here
+      Shooter.Set(ControlMode::Velocity, 2000);
+    } else if ((now > 5.60) && (now <= 6.00)) {
+      // run indexer to shoot ONLY ONE ball
       IndexerB.Set(ControlMode::PercentOutput, -0.3);
-    } else if ((now > 9.00) && (now <= 10.00)){
-      if (FIRST2){
+    } else if ((now > 6.00) && (now <= 6.20)) {
+      // stop indexer
+      IndexerB.Set(ControlMode::PercentOutput, 0.0);
+    } else if ((now > 6.20) && (now <= 6.60)) {
+      // run indexer to shoot ONLY ONE ball  
+      IndexerB.Set(ControlMode::PercentOutput, -0.3);
+    } else if ((now > 6.60) && (now <= 6.80)) {
+      // stop indexer
+      IndexerB.Set(ControlMode::PercentOutput, 0.0);
+    } else if ((now > 6.80) && (now <= 7.60)) {
+      // run indexer to shoot ONLY ONE ball
+      IndexerB.Set(ControlMode::PercentOutput, -0.3);
+    } else if ((now > 7.60) && (now <= 8.60)) {
+      // drive back
+      myRobot.ArcadeDrive( 0.6, 0.0, true);
+    } else if ((now > 8.60) && (now <= 9.80)) {
       // do stuff for the rest of the auto, like stop all the motions and get ready for teleop
+      myRobot.ArcadeDrive( 0.0, 0.5, true);
       Shooter.Set(ControlMode::PercentOutput, 0.0);
       IndexerB.Set(ControlMode::PercentOutput, 0.0);
       table->PutNumber("pipeline", 1); //camera pipe line
+    } else if ((now > 9.80) && (now <= 10.00)){
       double TargetAngle = gyroAngle + 180.0; 
-      FIRST2 = false;
       if ( TargetAngle >= 180.0) TargetAngle -= 360.0;
       if ( TargetAngle <= -180.0) TargetAngle += 360.0;
-
+      
       TurnToAngle.SetSetpoint(TargetAngle);
       FIRST2= false;
+      
+       myRobot.ArcadeDrive( 0.0, 0.0, true);
       }
-       myRobot.ArcadeDrive( 0.0, TurnToAngle.Calculate(gyroAngle), true);
-
-    } else {
-      TurnToAngle.Reset();
-      myRobot.ArcadeDrive( 0.0, 0.0, true);
-    }
+    } 
 
   }
- 
-}
 
 void Robot::TeleopInit() {} 
 
